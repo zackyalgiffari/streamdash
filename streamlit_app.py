@@ -154,7 +154,7 @@ elif model_type == 'RandomForest':
     prediction = model.predict(np.array([lead_time, adr]).reshape(1, -1))[0]
     st.sidebar.write(f'The predicted outcome for a new booking with lead time {lead_time} and average daily rate {adr} is {"Cancelled" if prediction else "Not Cancelled"}')
 
-# Create a dropdown to select the column to visualise
+# Create a dropdown to select the column
 column_to_plot = st.sidebar.selectbox(
     'Select column to create histogram',
     df.columns)
