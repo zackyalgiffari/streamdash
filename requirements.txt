@@ -1,9 +1,8 @@
 altair
-pandas
+sklearn
 streamlit
 plotly
 seaborn
 matplotlib
-sklearn
 pandas
 numpy
