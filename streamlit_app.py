@@ -21,7 +21,6 @@ def create_corr_heatmap(df):
     sns.heatmap(corr, ax=ax, cmap='coolwarm', annot=True, fmt=".2f")
     return fig
 
-
 # Define the function to create the histogram
 @st.cache_data
 def create_histogram(df, column):
@@ -50,7 +49,6 @@ def load_data():
 
     return df.copy()
 
-
 def create_visualizations(df, model, model_type, X_train):
     """Creates visualizations for the Streamlit app"""
     df = df.copy()
@@ -60,8 +58,10 @@ def create_visualizations(df, model, model_type, X_train):
 
     df['cohort_year'] = df.groupby('customer_type')['arrival_date_year'].transform('min')
     df['cohort_index'] = df.groupby('customer_type').cumcount() + 1
-    cohort_data = df.groupby(['cohort_year', 'cohort_index'])['is_canceled'].mean().unstack(0)
-    fig2 = px.imshow(cohort_data, labels=dict(x="Cohort Year", y="Cohort Index", color="Cancellation Ratio"), title='Cancellation Ratio by Cohort')
+
+    # Cancelation Ratio based on Month
+    cancelation_ratio_month = df.groupby('arrival_date_month')['is_canceled'].mean().reset_index(name='Cancellation Ratio')
+    fig2 = px.line(cancelation_ratio_month, x='arrival_date_month', y='Cancellation Ratio', title='Cancellation Ratio by Month')
 
     if model_type == 'KMeans':
         X_train['cluster'] = model.labels_
@@ -86,6 +86,7 @@ def create_visualizations(df, model, model_type, X_train):
     )
 
     return fig1, fig2, fig3
+
 
 
 def train_model(df, model_type, n_clusters=None):
