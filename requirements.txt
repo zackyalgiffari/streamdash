@@ -2,3 +2,8 @@ altair
 pandas
 streamlit
 plotly
+seaborn
+matplotlib
+sklearn
+pandas
+numpy
